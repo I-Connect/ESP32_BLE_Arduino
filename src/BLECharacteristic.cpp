@@ -500,14 +500,12 @@ void BLECharacteristic::notify(bool is_notification) {
 	if(is_notification) {
 		if (p2902 != nullptr && !p2902->getNotifications()) {
 			ESP_LOGD(LOG_TAG, "<< notifications disabled; ignoring");
-		  delete p2902;
 			return;
 		}
 	}
 	else{
 		if (p2902 != nullptr && !p2902->getIndications()) {
 			ESP_LOGD(LOG_TAG, "<< indications disabled; ignoring");
-		  delete p2902;
 			return;
 		}
 	}
@@ -527,13 +525,11 @@ void BLECharacteristic::notify(bool is_notification) {
 		if (errRc != ESP_OK) {
 			ESP_LOGE(LOG_TAG, "<< esp_ble_gatts_send_ %s: rc=%d %s",is_notification?"notify":"indicate", errRc, GeneralUtils::errorToString(errRc));
 			m_semaphoreConfEvt.give();
-		  delete p2902;
 			return;
 		}
 		if(!is_notification)
 			m_semaphoreConfEvt.wait("indicate");
 	}
-	delete p2902;
 	ESP_LOGD(LOG_TAG, "<< notify");
 } // Notify
 
